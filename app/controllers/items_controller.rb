@@ -17,9 +17,13 @@ class ItemsController < ApplicationController
   end
 
   def create
-      user = User.find(params[:user_id])
-      item = Item.new(user_id: user.id)
-      render json: item, include: :user, status: :created
+      if params[:user_id]
+        user = User.find(params[:user_id])
+        item = Item.new(user_id: user.id)
+        render json: item, include: :user, status: :created
+      else
+        render json: Item.new, include: :user
+      end
   end
 
   private
